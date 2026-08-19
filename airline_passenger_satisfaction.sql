@@ -137,9 +137,7 @@ SELECT
 FROM test AS t
 GROUP BY t.satisfaction;
 
-
-# Take average of different ratings:
-
+# Passenger/trip characteristics:
 # First Age, and flight distance:
 
 /*
@@ -153,19 +151,20 @@ SELECT
 		AVG(`Flight Distance`) AS flight_distance
 FROM test;
 
+# Service ratings:
 # Grouping ratings based on satisfaction:
 
 /*
 
-satisfaction           |clean |gate_loc|food_drink|online_boarding
+satisfaction           |clean |gate_loc|food_drink|online_boarding|
 -----------------------+------+--------+----------+---------------+
 satisfied              |3.7551|  2.9530|    3.5418|         4.0195|
 neutral or dissatisfied|2.9194|  2.9960|    2.9599|         2.6687|
 
-|seat_comfort|inflight_enter|inflight_service|checkin_service|bag_hand|
- ------------+--------------+----------------+---------------+--------+	
-       3.9660|        3.9613|          3.9770|         3.6607|  3.9690|
-       3.0449|        2.8855|          3.3928|         3.0430|  3.3705|
+seat_comfort|inflight_enter|inflight_service|checkin_service|bag_hand|
+------------+--------------+----------------+---------------+--------+	
+      3.9660|        3.9613|          3.9770|         3.6607|  3.9690|
+      3.0449|        2.8855|          3.3928|         3.0430|  3.3705|
 
 wifi_service|leg_room_services|da_time_convenient|onboard_services|ease_of_booking|
 ------------+-----------------+------------------+----------------+---------------+
@@ -193,6 +192,7 @@ SELECT
 FROM test
 GROUP BY satisfaction; 
 
+# Operational variables:
 # Let's see how satisfaction reacts to delay:
 
 /*
@@ -209,29 +209,43 @@ SELECT
 FROM test
 GROUP BY satisfaction;
     
+/*
+ * Let's focus on 'online boarding' since it has the best satisfaction rate
+ * and see if there is any correlation between it and satisfaction
+ */
 
-
-SELECT t.satisfaction, COUNT(*)
-FROM test t 	
-GROUP BY t.satisfaction;
-
-SELECT t.gender, COUNT(*)
+SELECT 
+		t.satisfaction,
+		COUNT(*)
 FROM test t 
-GROUP BY t.Gender ;
+WHERE t.`Online boarding` = 5
+GROUP BY satisfaction;
 
-SELECT t.satisfaction AS 'Female Satisfaction', COUNT(*)
-FROM test t
-WHERE t.gender = 'Female'
-GROUP BY t.satisfaction ;
+/*
+ * Let's see how online boarding satisfaction changes with class, customer type, type of travel and gender
+ */
 
-SELECT t.satisfaction AS 'Male Satisfaction', COUNT(*)
-FROM test t
-WHERE t.gender = 'Male'
-GROUP BY t.satisfaction ;
 
-SELECT t.`Type of Travel` , t.satisfaction, COUNT(*)
-FROM test t
-GROUP BY t.`Type of Travel`, t.satisfaction  ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
